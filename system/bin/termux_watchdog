@@ -1,0 +1,24 @@
+#!/system/bin/sh
+LOG="/data/local/tmp/termux_watchdog.log"
+echo "$(date): Watchdog launched (PID=$)" >> "$LOG"
+
+# ---------- Wait for Termux ----------
+while true; do
+    TERMUX_PID=$(pidof -s com.termux)
+    if [ -n "$TERMUX_PID" ]; then
+        echo "$(date): Detected Termux (PID=$TERMUX_PID)" >> "$LOG"
+        break
+    fi
+    sleep 5
+done
+
+# ---------- Monitor ----------
+while true; do
+    TERMUX_PID=$(pidof -s com.termux)
+    if [ -z "$TERMUX_PID" ]; then
+        echo "$(date): Termux no longer running -> reboot" >> "$LOG"
+        reboot
+        break
+    fi
+    sleep 5
+done

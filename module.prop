@@ -1,0 +1,6 @@
+id=termux-watchdog
+name=Termux Watchdog
+version=1.0
+versionCode=1
+author=tenkuma
+description=Reboots the device when the Termux app disappears.
